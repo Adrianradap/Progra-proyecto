@@ -1,0 +1,119 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+
+      <h1>🐉 Criaturas</h1>
+      <br/>
+
+      <div class="d-flex gap-2 mb-3">
+        <button type="button" class="btn btn-primary" routerLink="/criaturas/nueva">
+          + Nueva Criatura
+        </button>
+        <button type="button" class="btn btn-outline-secondary" (click)="cargarCriaturas()">
+          🔄 Actualizar lista
+        </button>
+      </div>
+
+      <!-- HU-07: error al eliminar -->
+      @if (mensajeEliminarError) {
+        <div class="alert alert-danger">{{ mensajeEliminarError }}</div>
+      }
+
+      <!-- HU-01: tabla de criaturas -->
+      @if (criaturas.length === 0) {
+        <div class="alert alert-info">No hay criaturas registradas en el sistema.</div>
+      } @else {
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>HP</th>
+              <th>ATK</th>
+              <th>DEF</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            @for (criatura of criaturas; track criatura.id) {
+              <tr>
+                <th scope="row">{{ criatura.id }}</th>
+                <td>{{ criatura.nombre }}</td>
+                <td>{{ criatura.tipo }}</td>
+                <td>{{ criatura.hp }}</td>
+                <td>{{ criatura.atk }}</td>
+                <td>{{ criatura.def }}</td>
+                <td>
+                  <!-- HU-07: eliminar criatura -->
+                  <button type="button"
+                          class="btn btn-outline-danger btn-sm"
+                          (click)="eliminar(criatura.id)">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+
+      <!-- HU-05 / HU-06: simular ataque -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <h5 class="mb-0">⚔️ Simular Ataque</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+              <label class="form-label">ID Atacante</label>
+              <input type="number" class="form-control" [(ngModel)]="atacanteId" min="1" placeholder="Ej: 1" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">ID Objetivo</label>
+              <input type="number" class="form-control" [(ngModel)]="objetivoId" min="1" placeholder="Ej: 2" />
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-warning w-100" (click)="simularAtaque()">
+                Atacar
+              </button>
+            </div>
+          </div>
+
+          <!-- HU-05 / HU-06: resultado del ataque con todos los campos -->
+          @if (resultadoAtaque) {
+            <div class="alert mt-3" [class.alert-success]="!resultadoAtaque.derrotado" [class.alert-danger]="resultadoAtaque.derrotado">
+              <strong>{{ resultadoAtaque.mensaje }}</strong>
+              <hr/>
+              <div class="row">
+                <div class="col-md-6">
+                  <small>Atacante:</small> <strong>{{ resultadoAtaque.atacante }}</strong>
+                </div>
+                <div class="col-md-6">
+                  <small>Objetivo:</small> <strong>{{ resultadoAtaque.objetivo }}</strong>
+                </div>
+              </div>
+              <div class="row mt-1">
+                <div class="col-md-6">
+                  <small>Daño causado:</small> <strong>{{ resultadoAtaque.danio }}</strong>
+                </div>
+                <div class="col-md-6">
+                  <small>HP restante:</small> <strong>{{ resultadoAtaque.hpRestante }}</strong>
+                </div>
+              </div>
+              @if (resultadoAtaque.derrotado) {
+                <div class="mt-2">💀 <strong>¡La criatura fue derrotada!</strong></div>
+              }
+            </div>
+          }
+
+          <!-- HU-05: error (mismo ID, no encontrado) -->
+          @if (mensajeAtaqueError) {
+            <div class="alert alert-warning mt-3">{{ mensajeAtaqueError }}</div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

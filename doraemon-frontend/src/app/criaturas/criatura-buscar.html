@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <h2>🔍 Buscar Criatura por ID</h2>
+      <br/>
+
+      <div class="input-group mb-3">
+        <input type="number"
+               class="form-control"
+               [(ngModel)]="buscarId"
+               min="1"
+               placeholder="Ingresa el ID (ej: 1)" />
+        <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+      </div>
+
+      <!-- Resultado exitoso -->
+      @if (criatura) {
+        <div class="card">
+          <div class="card-header">
+            <strong>{{ criatura.nombre }}</strong>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered mb-0">
+              <tbody>
+                <tr>
+                  <th>ID</th>
+                  <td>{{ criatura.id }}</td>
+                </tr>
+                <tr>
+                  <th>Nombre</th>
+                  <td>{{ criatura.nombre }}</td>
+                </tr>
+                <tr>
+                  <th>Tipo</th>
+                  <td>{{ criatura.tipo }}</td>
+                </tr>
+                <tr>
+                  <th>HP</th>
+                  <td>{{ criatura.hp }}</td>
+                </tr>
+                <tr>
+                  <th>ATK</th>
+                  <td>{{ criatura.atk }}</td>
+                </tr>
+                <tr>
+                  <th>DEF</th>
+                  <td>{{ criatura.def }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- Error: 404 u otro -->
+      @if (mensajeError) {
+        <div class="alert alert-danger">{{ mensajeError }}</div>
+      }
+
+    </div>
+  </div>
+</div>
