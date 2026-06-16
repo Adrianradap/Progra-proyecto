@@ -1,10 +1,8 @@
+# repositorio : https://github.com/Adrianradap/Progra-proyecto
 # Doraemon — Proyecto Final Programacion II
 
 **Adrian Rada | Eito Ygei**
 
-Proyecto reorganizado siguiendo el patron de tiendaweb: separacion en `doraemon-backend` (.NET + SQLite) y `doraemon-frontend` (Angular SPA).
-
----
 
 ## Estructura
 
@@ -14,20 +12,20 @@ doraemon-proyecto/
 │   ├── Controllers/
 │   │   └── CriaturasController.cs
 │   ├── Datos/
-│   │   └── AppDbContext.cs    ← NUEVO: puente a la BD
-│   ├── Migrations/            ← NUEVO: crea la tabla automaticamente
+│   │   └── AppDbContext.cs     puente a la BD
+│   ├── Migrations/            crea la tabla automaticamente
 │   ├── Models/
 │   │   └── Criatura.cs
 │   ├── Negocio/
 │   │   └── CriaturaService.cs
-│   ├── appsettings.json       ← NUEVO: connection string SQLite
+│   ├── appsettings.json       connection string SQLite
 │   └── Program.cs
 │
-└── doraemon-frontend/         ← NUEVO: Angular SPA
+└── doraemon-frontend/         <-Angular SPA
     └── src/app/
         ├── core/http/api-client.ts
         ├── criaturas/
-        │   ├── criatura.ts          (interfaces/DTOs)
+        │   ├── criatura.ts          (interfaces)
         │   ├── criatura-lista.ts    (ver + atacar + eliminar)
         │   ├── criatura-lista.html
         │   ├── criatura-crear.ts    (crear nueva)
@@ -44,12 +42,13 @@ doraemon-proyecto/
 ```bash
 cd doraemon-backend
 dotnet run
-# Corre en http://localhost:5056
-# La base de datos criaturas.db se crea automaticamente
+# La base de datos criaturas.db se crea automaticamente 
+# Por defecto esta la direccion esta en puerto 5000 si al momento de la creacion sale otro puerto debera de eliminar la carpeta migraciones y cambiar la direccion en los archivos del front end
+# frontend -> src -> app-> criaturas -> todos los criaturas.ts cambiar el puerto al que le salio en backend
 ```
 
 ### Frontend
-```bash
+
 cd doraemon-frontend
 npm install
 ng serve
@@ -63,19 +62,5 @@ ng serve
 - **Motor:** SQLite (archivo `criaturas.db` en la carpeta del backend)
 - **Tabla:** `Criaturas`
 - **Columnas:** Id, Nombre, Tipo, Hp, Atk, Def
-- **Seed:** Las 5 criaturas iniciales se insertan automaticamente la primera vez
+- se crean 5 ciratuarsa la primera vez
 
----
-
-## Cambios realizados (vs prograsimplesito original)
-
-| Archivo | Cambio |
-|---------|--------|
-| `Datos/AppDbContext.cs` | **NUEVO** — DbContext con EF Core + datos semilla |
-| `Migrations/` | **NUEVO** — migración que crea tabla `Criaturas` |
-| `appsettings.json` | **NUEVO** — connection string `criaturas.db` |
-| `Program.cs` | Registra `AppDbContext` con SQLite; `CriaturaService` cambia a `Scoped`; aplica migraciones al arrancar |
-| `Negocio/CriaturaService.cs` | Recibe `AppDbContext` por inyeccion; reemplaza la lista en memoria por llamadas a `_db.Criaturas`; agrega `_db.SaveChanges()` en Crear, Eliminar y SimularAtaque |
-| `Models/Criatura.cs` | Sin cambios |
-| `Controllers/CriaturasController.cs` | Sin cambios |
-| `doraemon-frontend/` | **NUEVO** — SPA Angular con los mismos 5 endpoints |
